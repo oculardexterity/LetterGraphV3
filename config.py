@@ -12,9 +12,13 @@ exist_config = {
     'development': {
         'address': '127.0.0.1',
         'port': '8080',
+
+
+        # And import in and unpack the secret info.
         **exist_secret['development']
     }
 }
 
 
-print(exist_config)
+if __name__ == '__main__':
+    print(exist_config)
