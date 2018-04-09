@@ -4,6 +4,7 @@ import xmlrpc.client
 STATUS = 'development'
 
 
+
 # Don't do this hacky shit
 import sys, os
 sys.path.append('../LetterGraphV3')
@@ -18,5 +19,18 @@ rpc_address = rpc_string.format_map(exist_config[STATUS])
 rpc = xmlrpc.client.ServerProxy(rpc_address)
 print(rpc)
 
-rpc.removeCollection('/db/apps/TEST_COLL')
+rpc.createCollection('/db/apps/TEST_COLL')
 
+
+
+
+'''
+
+EXIST XMLRPC FUNCTIONS
+
+createCollection(name: string)
+removeCollection(name: string)
+
+
+
+'''
