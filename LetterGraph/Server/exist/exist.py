@@ -1,4 +1,4 @@
-
+import os
 
 class Exist:
     def __init__(self):
@@ -9,7 +9,9 @@ class Exist:
         for key, value in {**config[mode], **config['global']}.items():
             setattr(cls, key, value)
 
-
+    @property
+    def _xqueries(self):
+        return os.listdir(self.xqueries_path)
 
 
 
@@ -23,5 +25,7 @@ if __name__ == '__main__':
     exist = Exist()
 
 
-    print(exist.exist_app_name)
+    print(exist.xqueries_path)
+    print(exist._xqueries())
+
 

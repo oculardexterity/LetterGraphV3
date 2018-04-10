@@ -4,7 +4,7 @@ Dicts holding config info.
 
 
 """
-
+import os.path
 from config_SECRET import EXIST_SECRET
 
 
@@ -14,7 +14,8 @@ MODE = 'development'
 EXIST_CONFIG = {
 
     'global': {
-        'app_name': 'testapp'
+        'app_name': 'testapp',
+        'xqueries_path': os.path.join('LetterGraph', 'Server', 'xqueries')
     },
     'development': {
         'address': '127.0.0.1',
