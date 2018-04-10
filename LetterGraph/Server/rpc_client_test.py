@@ -1,3 +1,4 @@
+
 import xmlrpc.client
 
 # Farm this out somewhere decent
@@ -13,24 +14,44 @@ from config import exist_config
 
 
 
+
+
+
+
 rpc_string = 'http://{user_name}:{password}@{address}:{port}/exist/xmlrpc'
 rpc_address = rpc_string.format_map(exist_config[STATUS])
 
-rpc = xmlrpc.client.ServerProxy(rpc_address)
+rpc = xmlrpc.client.ServerProxy(rpc_address, encoding='UTF-8', verbose=False)
 print(rpc)
 
-rpc.createCollection('/db/apps/TEST_COLL')
 
+query = '''
 
+xquery version "3.1";
 
-
-'''
-
-EXIST XMLRPC FUNCTIONS
-
-createCollection(name: string)
-removeCollection(name: string)
-
-
+let $thing := "boffin"
+return <test>{$thing}</test>
 
 '''
+vars = {'x': 'testy'}
+
+res = rpc.execute('/db/apps/testapp/test.xql', {'variables': vars})
+print('RES_ID: ', res)
+
+
+
+
+
+res = rpc.retrieve(res['id'], 0, {})
+print(res)
+
+
+#params = ({'indent': 'yes'})
+
+#xml_query = xmlrpc.client.dumps(params, methodname='query')
+
+#print(xml_query)
+
+#meths = rpc.system.listMethods()
+#print(meths)
+
