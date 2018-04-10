@@ -50,7 +50,7 @@ class Test_Exist(unittest.TestCase):
         os.mkdir(TEST_PATH)
         f = open(os.path.join(TEST_PATH, 'test.xql'), 'w')
         f.close()
-        Exist.setup(config=test_config, mode='development')
+        Exist.setup(config=test_config, mode='development', asynchronous=False)
         self.exist = Exist()
 
     def tearDown(self):
