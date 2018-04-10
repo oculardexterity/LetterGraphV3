@@ -1,8 +1,10 @@
 from contextlib import contextmanager
+import inspect
 import os
-import shutil
-import time
+import sys
 import unittest
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath( __file__ )), '..'))
 
 
 from exist import Exist
@@ -38,8 +40,23 @@ def build_test_xquery_dir(file_name):
 
 class Test_Exist(unittest.TestCase):
     def setUp(self):
+        try:
+            os.remove(os.path.join(TEST_PATH, 'test.xql'))
+            os.rmdir(TEST_PATH)
+        except FileNotFoundError:
+            pass
+
+
+        os.mkdir(TEST_PATH)
+        f = open(os.path.join(TEST_PATH, 'test.xql'), 'w')
+        f.close()
         Exist.setup(config=test_config, mode='development')
         self.exist = Exist()
+
+    def tearDown(self):
+        os.remove(os.path.join(TEST_PATH, 'test.xql'))
+        os.rmdir(TEST_PATH)
+
 
     def test_setup_imports_config(self):
         exist = Exist()
@@ -48,10 +65,9 @@ class Test_Exist(unittest.TestCase):
         assert exist.global_test_field == test_config['global']['global_test_field']
 
     def test_xquery_path(self):
-        with build_test_xquery_dir('test.xql'):
-            dir_contents = self.exist._xqueries
+        assert self.exist._xqueries() == ['test.xql']
 
-        assert dir_contents == ['test.xql']
-
+    def test_xqueries_are_methods(self):
+        assert inspect.ismethod(self.exist.test)
 
 
