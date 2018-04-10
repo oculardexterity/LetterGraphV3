@@ -14,7 +14,7 @@ MODE = 'development'
 EXIST_CONFIG = {
 
     'global': {
-        'app_name': 'testapp',
+        'app_name': 'testapp2',
         'xqueries_path': os.path.join('LetterGraph', 'Server', 'xqueries')
     },
     'development': {

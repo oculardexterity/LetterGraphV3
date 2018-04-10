@@ -1,5 +1,5 @@
 import os
-
+import xmlrpc.client
 
 
 async def async_test_call(thing):
@@ -19,7 +19,16 @@ class Exist:
     def setup(cls, config=None, mode='development', asynchronous=True):
         for key, value in {**config[mode], **config['global']}.items():
             setattr(cls, key, value)
+
         cls._build_xquery_methods(asynchronous)
+
+        rpc_string = f'http://{cls.username}:{cls.password}'
+        rpc_string += f'@{cls.address}:{cls.port}/exist/xmlrpc'
+
+        cls.rpc = xmlrpc.client.ServerProxy(
+            rpc_string, encoding='UTF-8', verbose=False
+        )
+        cls._copy_files_to_exist()
 
     @classmethod
     def _xqueries(cls):
@@ -38,6 +47,18 @@ class Exist:
                     return sync_test_call(xq_name)
             setattr(cls, xq_name, fn)
 
+    @classmethod
+    def _copy_files_to_exist(cls):
+        cls.app_path = f'/db/apps/{cls.app_name}'
+
+        try:
+            cls.rpc.getCollectionDesc(cls.app_path)
+        except xmlrpc.client.Fault as e:
+            print(e)
+            cls.rpc.createCollection(cls.app_path)
+
+
+
 
 
 
@@ -50,5 +71,5 @@ if __name__ == '__main__':
 
     exist = Exist()
 
-    exist.test()
+
 
