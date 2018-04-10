@@ -1,6 +1,6 @@
 __pycache__
 .pytest_cache
-
+experiments
 venv
 
 config_SECRET.py
