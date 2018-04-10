@@ -7,7 +7,8 @@ class Exist:
     @classmethod
     def setup(cls, config=None, mode='development'):
         for key, value in {**config[mode], **config['global']}.items():
-            setattr(cls, f'exist_{key}', value)
+            setattr(cls, key, value)
+
 
 
 

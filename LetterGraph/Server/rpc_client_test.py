@@ -10,7 +10,7 @@ STATUS = 'development'
 import sys, os
 sys.path.append('../LetterGraphV3')
 
-from config import exist_config
+from config import EXIST_CONFIG
 
 
 
@@ -18,8 +18,8 @@ from config import exist_config
 
 
 
-rpc_string = 'http://{user_name}:{password}@{address}:{port}/exist/xmlrpc'
-rpc_address = rpc_string.format_map(exist_config[STATUS])
+rpc_string = 'http://{username}:{password}@{address}:{port}/exist/xmlrpc'
+rpc_address = rpc_string.format_map(EXIST_CONFIG[STATUS])
 
 rpc = xmlrpc.client.ServerProxy(rpc_address, encoding='UTF-8', verbose=False)
 print(rpc)
